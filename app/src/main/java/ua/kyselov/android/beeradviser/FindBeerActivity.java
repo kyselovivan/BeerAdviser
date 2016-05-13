@@ -8,8 +8,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+import java.util.List;
 
 public class FindBeerActivity extends AppCompatActivity {
+
+    TextView brands;
+    Spinner color;
+    BeerExpert beerExpert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +25,9 @@ public class FindBeerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_find_beer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        brands = (TextView)findViewById(R.id.brands);
+        color = (Spinner)findViewById(R.id.color);
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -48,5 +59,16 @@ public class FindBeerActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onClickFindBeer(View view){
+        String selectedItem = String.valueOf(color.getSelectedItem());
+        beerExpert = new BeerExpert();
+        List<String> beerList = beerExpert.getBrands(selectedItem);
+        StringBuilder brendsFormatted = new StringBuilder();
+        for(String temp : beerList){
+            brendsFormatted.append(temp + "\n");
+        }
+        brands.setText(brendsFormatted);
     }
 }
